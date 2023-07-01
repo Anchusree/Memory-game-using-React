@@ -7,6 +7,8 @@ const gameIcons = ["A","B","C","D","E","F"]
 function App() {
 
   const [pieces,setPieces] = useState([])
+  const [score,setScore] = useState(0)
+
   let timeout = useRef()
   const isGameCompleted = useMemo(()=>{
     if(pieces.length > 0 && pieces.every((piece=>piece.solved))){
@@ -30,7 +32,6 @@ function App() {
       duplicateGameIcons.splice(randomIndex,1)
     }
     setPieces(newGameIcons)
-
   }
 
   useEffect(()=>{
@@ -60,19 +61,19 @@ function App() {
             
             if(flippedData[0].letter === flippedData[1].letter){
               data.solved = true
+              setScore(score+10)
             }
             else{
               data.flipped = false
+              if(score > 0){
+                setScore(score-5)
+              }
             }
           }
           return data;
         }
         ))
-
-
-      
       }, 800);
-    
     }
   }
 
@@ -87,6 +88,7 @@ function App() {
     <>
      <main>
       <h1>Memory Game</h1>
+      <h2>Score: {score}</h2>
       <div className='container'>
         {
           pieces.map((data,index)=>(
@@ -103,7 +105,7 @@ function App() {
       </div>
       {isGameCompleted && 
       <div className='game-completed'>
-        <h1>YOU WIN!!!</h1>
+        <h1>YOU WIN!!!<br/>Your Score is {score}</h1>
         <Confetti
         width={window.innerWidth}
         height={window.innerHeight}
