@@ -9,6 +9,7 @@ function App() {
   const [pieces,setPieces] = useState([])
   const [score,setScore] = useState(0)
   const [hintCounter, setHintCounter] = useState(3);
+  const [moves,setMoves] = useState(0)
  
 
   let timeout = useRef()
@@ -51,6 +52,7 @@ function App() {
       return piece
     });
     setPieces(newPieces)
+    setMoves((prevMoves) => prevMoves + 1);
   };
 
   const gameLogicForFlipped = ()=>{
@@ -152,7 +154,10 @@ function App() {
           score >=45
           ?
           <>
-          <h1>YOU WIN!!!<br/>Your Score is {score}</h1>
+          <h1>YOU WIN!!!<br/>
+          Your Score is {score}<br/>
+          No. of Moves: {moves}
+          </h1>
           <Confetti
           width={window.innerWidth}
           height={window.innerHeight}
