@@ -13,7 +13,7 @@ h1{
   display:grid;
   grid-template-columns: repeat(6,150px);
   grid-auto-rows: 150px;
-  gap:20px;
+  gap:10px;
   justify-content: center;
 }
 
@@ -51,7 +51,7 @@ body {
 }
 
 .flip-card-front {
-  background-color: #7d7a7a;
+  background-color: #254764ba;;
   color: black;
   border-radius:5px;
 }
@@ -76,4 +76,21 @@ body {
 .game-completed h1{
   font-size: 50px;
   color: white;
+}
+
+.scorecontent{
+  display: flex;
+  justify-content: space-between;
+  margin-left: 12%;
+  margin-right: 12%;
+}
+.hint-button{
+  width: 66px;
+  height: 42px;
+  margin-top: 19px;
+  background-color: #2470be;
+  color: white;
+}
+.hint-counter {
+  font-weight: 600;
 }

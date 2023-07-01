@@ -8,6 +8,8 @@ function App() {
 
   const [pieces,setPieces] = useState([])
   const [score,setScore] = useState(0)
+  const [hintCounter, setHintCounter] = useState(3);
+ 
 
   let timeout = useRef()
   const isGameCompleted = useMemo(()=>{
@@ -75,6 +77,18 @@ function App() {
         ))
       }, 800);
     }
+    else if (flippedData.length === 1 && hintCounter < 3) {
+      timeout.current = setTimeout(() => {
+        setPieces(
+          pieces.map((data) => {
+            if (data.position === flippedData[0].position) {
+              data.flipped = false;
+            }
+            return data;
+          })
+        );
+      }, 800);
+    }
   }
 
 
@@ -84,11 +98,40 @@ function App() {
     return ()=>clearTimeout(timeout.current)
   },[pieces])
 
+  const handleHint = (data) => {
+    if (hintCounter > 0) {
+      const unFlippedCards = data.filter(data=>!data.flipped && !data.solved)
+      if (unFlippedCards.length > 0) {
+        const randomIndex = Math.floor(
+          Math.random() * unFlippedCards.length
+        );
+        const cardToReveal = unFlippedCards[randomIndex];
+        const newPieces = [...pieces];
+        newPieces[cardToReveal.position].flipped = true;
+        setPieces(newPieces);
+        setHintCounter(hintCounter - 1);
+      }
+    }
+  };
+
   return (
     <>
      <main>
       <h1>Memory Game</h1>
-      <h2>Score: {score}</h2>
+      <div className='scorecontent'>
+        <h2>Score: {score}</h2>
+        <button
+          className="hint-button"
+          onClick={()=>handleHint(pieces)}
+          disabled={hintCounter === 0}
+        >
+          Hint
+        </button>
+      </div>
+     
+
+     
+      
       <div className='container'>
         {
           pieces.map((data,index)=>(
@@ -101,15 +144,27 @@ function App() {
             </div>
           ))
         }
-       
+       <div className="hint-counter">Hints Remaining: {hintCounter}</div>
       </div>
       {isGameCompleted && 
       <div className='game-completed'>
-        <h1>YOU WIN!!!<br/>Your Score is {score}</h1>
-        <Confetti
-        width={window.innerWidth}
-        height={window.innerHeight}
-      />
+        {
+          score >=45
+          ?
+          <>
+          <h1>YOU WIN!!!<br/>Your Score is {score}</h1>
+          <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          />
+          </>
+          :
+          <>
+          <h1>OOPS!! YOU LOSE!!!<br/>Your Score is {score}</h1>
+          </>
+          
+        }
+       
       </div>
       }
       
