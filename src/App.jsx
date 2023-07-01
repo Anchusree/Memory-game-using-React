@@ -18,7 +18,6 @@ function App() {
 
   const startGame = ()=>{
     const duplicateGameIcons = gameIcons.concat(gameIcons)
-    console.log(duplicateGameIcons);
     const newGameIcons = []
     while(newGameIcons.length < gameIcons.length * 2){
       const randomIndex = Math.floor(Math.random()* duplicateGameIcons.length)
