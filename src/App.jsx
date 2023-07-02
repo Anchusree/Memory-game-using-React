@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 import Confetti from 'react-confetti'
 
-const gameIcons = ["A","B","C","D","E","F"]
+const gameIcons = ["Red","Green","Blue","Yellow","Orange","Pink"]
 
 function App() {
 
@@ -141,7 +141,7 @@ function App() {
             onClick={()=> handleActive(data)}>
               <div className="flip-card-inner">
                 <div className="flip-card-front"></div>
-                <div className="flip-card-back">{data.letter}</div>
+                <div className="flip-card-back" style={{backgroundColor:data.letter ? data.letter : ''}}>{data.letter}</div>
               </div>
             </div>
           ))
